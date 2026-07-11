@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/domain"
 
 	"github.com/bogem/id3v2"
 	"github.com/rwcarlsen/goexif/exif"
