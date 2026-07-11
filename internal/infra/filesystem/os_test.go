@@ -12,7 +12,7 @@ func TestRealFileSystem(t *testing.T) {
 	fs := NewRealFileSystem()
 	tmpDir, err := os.MkdirTemp("", "nostalgia_test")
 	assert.NoError(t, err)
-	defer os.RemoveAll(tmpDir)
+	defer func() { _ = os.RemoveAll(tmpDir) }()
 
 	t.Run("CreateDirectory and Exists", func(t *testing.T) {
 		path := filepath.Join(tmpDir, "subdir")

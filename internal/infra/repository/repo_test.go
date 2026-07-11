@@ -62,7 +62,7 @@ func TestNFileRepository(t *testing.T) {
 			Name: "hash_file.txt",
 			Hash: hash,
 		}
-		repo.Add(ctx, file)
+		assert.NoError(t, repo.Add(ctx, file))
 
 		exists, err := repo.Exists(ctx, hash)
 		assert.NoError(t, err)
@@ -81,7 +81,7 @@ func TestNFileRepository(t *testing.T) {
 		tag := &domain.NTag{Name: "Nature"}
 		db.Create(tag)
 		file := &domain.NFile{Name: "nature.jpg", Hash: "nature_hash", Tags: []*domain.NTag{tag}}
-		repo.Add(ctx, file)
+		assert.NoError(t, repo.Add(ctx, file))
 
 		files, total, err := repo.SearchByTag(ctx, "Nature", 1, 10)
 		assert.NoError(t, err)
@@ -99,7 +99,7 @@ func TestNDirectoryRepository(t *testing.T) {
 		tag := &domain.NTag{Name: "Tag1"}
 		db.Create(tag)
 		dir := &domain.NDirectory{Name: "Dir1", FullPath: "/Dir1", Tags: []*domain.NTag{tag}}
-		repo.Add(ctx, dir)
+		assert.NoError(t, repo.Add(ctx, dir))
 
 		fetched, err := repo.GetByID(ctx, dir.ID)
 		assert.NoError(t, err)
@@ -110,10 +110,10 @@ func TestNDirectoryRepository(t *testing.T) {
 
 	t.Run("GetFiles and GetDirectories", func(t *testing.T) {
 		root := &domain.NDirectory{Name: "root", FullPath: "root"}
-		repo.Add(ctx, root)
+		assert.NoError(t, repo.Add(ctx, root))
 
 		child := &domain.NDirectory{Name: "child", FullPath: "root/child", ParentDirectoryID: root.ID}
-		repo.Add(ctx, child)
+		assert.NoError(t, repo.Add(ctx, child))
 
 		file := &domain.NFile{Name: "f1.txt", Hash: "f1_hash"}
 		db.Create(file)
@@ -132,7 +132,7 @@ func TestNDirectoryRepository(t *testing.T) {
 
 	t.Run("GetParentDirectory", func(t *testing.T) {
 		root := &domain.NDirectory{Name: "root", FullPath: "root"}
-		repo.Add(ctx, root)
+		assert.NoError(t, repo.Add(ctx, root))
 		file := &domain.NFile{Name: "f2.txt", Hash: "f2_hash"}
 		db.Create(file)
 		db.Create(&domain.NFileNode{NDirectoryID: root.ID, NFileID: file.ID, Name: "f2.txt"})
@@ -150,8 +150,8 @@ func TestNTagRepository(t *testing.T) {
 	ctx := context.Background()
 
 	t.Run("Add and GetAllNames", func(t *testing.T) {
-		repo.Add(ctx, &domain.NTag{Name: "A"})
-		repo.Add(ctx, &domain.NTag{Name: "B"})
+		assert.NoError(t, repo.Add(ctx, &domain.NTag{Name: "A"}))
+		assert.NoError(t, repo.Add(ctx, &domain.NTag{Name: "B"}))
 
 		names, err := repo.GetAllNames(ctx)
 		assert.NoError(t, err)
@@ -161,7 +161,7 @@ func TestNTagRepository(t *testing.T) {
 	})
 
 	t.Run("GetByName", func(t *testing.T) {
-		repo.Add(ctx, &domain.NTag{Name: "Unique"})
+		assert.NoError(t, repo.Add(ctx, &domain.NTag{Name: "Unique"}))
 		tag, err := repo.GetByName(ctx, "Unique")
 		assert.NoError(t, err)
 		assert.NotNil(t, tag)
@@ -192,7 +192,7 @@ func TestNDirectoryRepositoryExtra(t *testing.T) {
 
 	t.Run("FileNodeExists and GetByName", func(t *testing.T) {
 		dir := &domain.NDirectory{Name: "Parent", FullPath: "Parent"}
-		repo.Add(ctx, dir)
+		assert.NoError(t, repo.Add(ctx, dir))
 
 		db.Create(&domain.NFileNode{NDirectoryID: dir.ID, Name: "node1"})
 
@@ -203,7 +203,7 @@ func TestNDirectoryRepositoryExtra(t *testing.T) {
 		assert.False(t, exists)
 
 		child := &domain.NDirectory{Name: "Child", ParentDirectoryID: dir.ID}
-		repo.Add(ctx, child)
+		assert.NoError(t, repo.Add(ctx, child))
 
 		fetched, _ := repo.GetByName(ctx, dir.ID, "Child")
 		assert.NotNil(t, fetched)
@@ -251,7 +251,9 @@ func TestUnitOfWork(t *testing.T) {
 
 	t.Run("Transaction Rollback", func(t *testing.T) {
 		err := uow.Transaction(ctx, func(txUow domain.UnitOfWork) error {
-			txUow.Files().Add(ctx, &domain.NFile{Name: "tx_file.txt", Hash: "tx_hash"})
+			if err := txUow.Files().Add(ctx, &domain.NFile{Name: "tx_file.txt", Hash: "tx_hash"}); err != nil {
+				return err
+			}
 			return gorm.ErrInvalidData // force rollback
 		})
 		assert.Error(t, err)

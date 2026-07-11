@@ -29,7 +29,7 @@ func RunMigrations(cfg *config.Config) {
 	if err != nil {
 		log.Fatalf("Failed to open sql connection for migrations: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	goose.SetBaseFS(embedMigrations)
 

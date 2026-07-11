@@ -162,7 +162,7 @@ func (e *Enricher) extractID3Metadata(path string, meta map[string]interface{}) 
 	if err != nil {
 		return
 	}
-	defer tag.Close()
+	defer func() { _ = tag.Close() }()
 
 	meta["type"] = "audio"
 	meta["title"] = tag.Title()
@@ -177,7 +177,7 @@ func (e *Enricher) extractExifMetadata(path string, meta map[string]interface{})
 	if err != nil {
 		return
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	x, err := exif.Decode(f)
 	if err != nil {
@@ -230,7 +230,7 @@ func (e *Enricher) extractZipMetadata(path string, meta map[string]interface{}) 
 		meta["error"] = "failed to open zip"
 		return
 	}
-	defer r.Close()
+	defer func() { _ = r.Close() }()
 
 	var files []string
 	for _, f := range r.File {

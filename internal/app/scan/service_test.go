@@ -145,8 +145,8 @@ func TestRunScan(t *testing.T) {
 	// Setup mock filesystem
 	scanPath := "/scan"
 	nostalgiaPath := "/nostalgia"
-	fs.CreateDirectory(scanPath)
-	fs.CreateDirectory(nostalgiaPath)
+	assert.NoError(t, fs.CreateDirectory(scanPath))
+	assert.NoError(t, fs.CreateDirectory(nostalgiaPath))
 
 	file1Path := filepath.Join(scanPath, "test1.jpg")
 	file1Data := []byte("fake image data 1")
@@ -154,7 +154,7 @@ func TestRunScan(t *testing.T) {
 	fs.Stats[file1Path] = &MockFileInfo{name: "test1.jpg", size: int64(len(file1Data)), modTime: time.Now()}
 
 	subDirPath := filepath.Join(scanPath, "subdir")
-	fs.CreateDirectory(subDirPath)
+	assert.NoError(t, fs.CreateDirectory(subDirPath))
 	file2Path := filepath.Join(subDirPath, "test2.png")
 	file2Data := []byte("fake image data 2")
 	fs.Files[file2Path] = file2Data
@@ -162,11 +162,11 @@ func TestRunScan(t *testing.T) {
 
 	// Setup source directory in DB
 	sourceName := "MySource"
-	uow.Directories().Add(ctx, &domain.NDirectory{
+	assert.NoError(t, uow.Directories().Add(ctx, &domain.NDirectory{
 		Name:     sourceName,
 		FullPath: sourceName,
 		IsSource: true,
-	})
+	}))
 
 	opts := ScanOptions{
 		Source:        sourceName,
@@ -253,7 +253,7 @@ func TestCheckExisting(t *testing.T) {
 	service := NewScanService(uow, nil)
 
 	existing := &domain.NFile{Name: "ex.jpg", Hash: "h_ex"}
-	uow.Files().Add(context.Background(), existing)
+	assert.NoError(t, uow.Files().Add(context.Background(), existing))
 
 	res := &ScanResult{
 		Files: []*FileScan{
@@ -275,7 +275,7 @@ func TestScan(t *testing.T) {
 	fs := NewMockFileSystem()
 	service := NewScanService(nil, fs)
 
-	fs.CreateDirectory("/tmp/scan")
+	assert.NoError(t, fs.CreateDirectory("/tmp/scan"))
 	fs.Files["/tmp/scan/f1.jpg"] = []byte("data")
 	fs.Stats["/tmp/scan/f1.jpg"] = &MockFileInfo{name: "f1.jpg", size: 4}
 
@@ -292,7 +292,7 @@ func TestPersist(t *testing.T) {
 	ctx := context.Background()
 
 	sourceDir := &domain.NDirectory{Name: "Source1", FullPath: "Source1", IsSource: true}
-	uow.Directories().Add(ctx, sourceDir)
+	assert.NoError(t, uow.Directories().Add(ctx, sourceDir))
 
 	res := &ScanResult{
 		RootDirectory: &DirectoryScan{Name: "root", FinalPath: "Source1"},
@@ -350,11 +350,11 @@ func TestRunScan_Integration(t *testing.T) {
 
 	// Setup source
 	srcName := "S1"
-	uow.Directories().Add(ctx, &domain.NDirectory{Name: srcName, FullPath: srcName, IsSource: true})
+	assert.NoError(t, uow.Directories().Add(ctx, &domain.NDirectory{Name: srcName, FullPath: srcName, IsSource: true}))
 
 	// Setup FS
 	scanPath := "/scan"
-	fs.CreateDirectory(scanPath)
+	assert.NoError(t, fs.CreateDirectory(scanPath))
 	filePath := filepath.Join(scanPath, "f1.jpg")
 	fs.Files[filePath] = []byte("image_data")
 	fs.Stats[filePath] = &MockFileInfo{name: "f1.jpg", size: 10}

@@ -18,8 +18,14 @@ import (
 
 func TestNewRouter(t *testing.T) {
 	gin.SetMode(gin.TestMode)
-	db, _ := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
-	db.AutoMigrate(&domain.NTag{}, &domain.NFile{}, &domain.NDirectory{}, &domain.NScan{}, &domain.NFileNode{})
+	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
+	if err != nil {
+		t.Fatalf("failed to connect database: %v", err)
+	}
+	err = db.AutoMigrate(&domain.NTag{}, &domain.NFile{}, &domain.NDirectory{}, &domain.NScan{}, &domain.NFileNode{})
+	if err != nil {
+		t.Fatalf("failed to migrate database: %v", err)
+	}
 	uow := repository.NewGormUnitOfWork(db)
 
 	tagSvc := tag.NewTagService(uow, nil)

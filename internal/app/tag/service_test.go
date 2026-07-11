@@ -49,8 +49,8 @@ func TestTagService(t *testing.T) {
 	})
 
 	t.Run("GetAllTags", func(t *testing.T) {
-		service.Add(ctx, &domain.NTag{Name: "Urban"})
-		service.Add(ctx, &domain.NTag{Name: "Abstract"})
+		assert.NoError(t, service.Add(ctx, &domain.NTag{Name: "Urban"}))
+		assert.NoError(t, service.Add(ctx, &domain.NTag{Name: "Abstract"}))
 
 		tags, err := service.GetAllTags(ctx)
 		assert.NoError(t, err)

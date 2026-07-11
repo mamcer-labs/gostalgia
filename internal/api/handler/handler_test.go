@@ -23,7 +23,10 @@ func setupTestDB(t *testing.T) *gorm.DB {
 	if err != nil {
 		t.Fatalf("failed to connect database: %v", err)
 	}
-	db.AutoMigrate(&domain.NTag{}, &domain.NFile{}, &domain.NDirectory{}, &domain.NScan{}, &domain.NFileNode{})
+	err = db.AutoMigrate(&domain.NTag{}, &domain.NFile{}, &domain.NDirectory{}, &domain.NScan{}, &domain.NFileNode{})
+	if err != nil {
+		t.Fatalf("failed to migrate database: %v", err)
+	}
 	return db
 }
 

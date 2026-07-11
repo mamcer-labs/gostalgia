@@ -8,14 +8,14 @@ import (
 )
 
 func TestLoadConfig(t *testing.T) {
-	os.Setenv("NOSTALGIA_SCAN_PATH", "/scan")
-	os.Setenv("NOSTALGIA_HOME_PATH", "/home")
-	os.Setenv("NOSTALGIA_THUMB_TARGET_PATH", "/thumb")
-	os.Setenv("NOSTALGIA_CONNECTION_STRING", "db_conn")
-	defer os.Unsetenv("NOSTALGIA_SCAN_PATH")
-	defer os.Unsetenv("NOSTALGIA_HOME_PATH")
-	defer os.Unsetenv("NOSTALGIA_THUMB_TARGET_PATH")
-	defer os.Unsetenv("NOSTALGIA_CONNECTION_STRING")
+	assert.NoError(t, os.Setenv("NOSTALGIA_SCAN_PATH", "/scan"))
+	assert.NoError(t, os.Setenv("NOSTALGIA_HOME_PATH", "/home"))
+	assert.NoError(t, os.Setenv("NOSTALGIA_THUMB_TARGET_PATH", "/thumb"))
+	assert.NoError(t, os.Setenv("NOSTALGIA_CONNECTION_STRING", "db_conn"))
+	defer func() { _ = os.Unsetenv("NOSTALGIA_SCAN_PATH") }()
+	defer func() { _ = os.Unsetenv("NOSTALGIA_HOME_PATH") }()
+	defer func() { _ = os.Unsetenv("NOSTALGIA_THUMB_TARGET_PATH") }()
+	defer func() { _ = os.Unsetenv("NOSTALGIA_CONNECTION_STRING") }()
 
 	cfg := LoadConfig()
 

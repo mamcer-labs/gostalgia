@@ -35,7 +35,9 @@ func SetupMySQLContainer(ctx context.Context, t *testing.T) (*gorm.DB, func()) {
 	}
 
 	// Migrate
-	db.AutoMigrate(&domain.NTag{}, &domain.NFile{}, &domain.NDirectory{}, &domain.NScan{}, &domain.NFileNode{})
+	if err := db.AutoMigrate(&domain.NTag{}, &domain.NFile{}, &domain.NDirectory{}, &domain.NScan{}, &domain.NFileNode{}); err != nil {
+		t.Fatalf("failed to migrate database: %s", err)
+	}
 
 	cleanUp := func() {
 		if err := mysqlContainer.Terminate(ctx); err != nil {
