@@ -1,15 +1,15 @@
 package dto
 
 type NFileDto struct {
-	ID              int64           `json:"id"`
-	Name            string          `json:"name" binding:"required"`
-	Extension       string          `json:"extension"`
-	Path            string          `json:"path" binding:"required"`
-	DateModified    string          `json:"date_modified"`
-	Size            string          `json:"size"`
-	SizeRaw         int64           `json:"size_raw"`
-	Hash            string          `json:"hash" binding:"required"`
-	Tags            []string        `json:"tags"`
+	ID              int64          `json:"id"`
+	Name            string         `json:"name" binding:"required"`
+	Extension       string         `json:"extension"`
+	Path            string         `json:"path" binding:"required"`
+	DateModified    string         `json:"date_modified"`
+	Size            string         `json:"size"`
+	SizeRaw         int64          `json:"size_raw"`
+	Hash            string         `json:"hash" binding:"required"`
+	Tags            []string       `json:"tags"`
 	ParentDirectory *NDirectoryDto `json:"parent_directory,omitempty"`
 }
 

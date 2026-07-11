@@ -26,11 +26,11 @@ func (m *MockFileSystem) CreateDirectory(path string) error {
 	m.Dirs = append(m.Dirs, path)
 	return nil
 }
-func (m *MockFileSystem) CopyFile(src, dst string) error                    { return nil }
-func (m *MockFileSystem) ReadDir(path string) ([]os.DirEntry, error)         { return nil, nil }
-func (m *MockFileSystem) Stat(path string) (os.FileInfo, error)             { return nil, nil }
-func (m *MockFileSystem) Open(path string) (io.ReadCloser, error)           { return nil, nil }
-func (m *MockFileSystem) Create(path string) (io.WriteCloser, error)        { return nil, nil }
+func (m *MockFileSystem) CopyFile(src, dst string) error             { return nil }
+func (m *MockFileSystem) ReadDir(path string) ([]os.DirEntry, error) { return nil, nil }
+func (m *MockFileSystem) Stat(path string) (os.FileInfo, error)      { return nil, nil }
+func (m *MockFileSystem) Open(path string) (io.ReadCloser, error)    { return nil, nil }
+func (m *MockFileSystem) Create(path string) (io.WriteCloser, error) { return nil, nil }
 
 func setupTestDB(t *testing.T) *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
@@ -67,14 +67,14 @@ func TestThumbService(t *testing.T) {
 
 	t.Run("With files in DB", func(t *testing.T) {
 		db.Create(&domain.NFile{Name: "test.jpg", Extension: ".jpg", Path: "test.jpg"})
-		
+
 		opts := ThumbOptions{
 			Size:          256,
 			NumWorkers:    1,
 			NostalgiaPath: "/nostalgia",
 			TargetPath:    "/thumbs",
 		}
-		
+
 		// This will likely fail in finding ImageMagick but we can check if it tries
 		err := service.GenerateThumbnails(ctx, opts)
 		if err != nil {
@@ -85,15 +85,14 @@ func TestThumbService(t *testing.T) {
 
 // MockFileInfo implements os.FileInfo
 type MockFileInfo struct {
-	name    string
-	size    int64
-	isDir   bool
+	name  string
+	size  int64
+	isDir bool
 }
 
 func (m *MockFileInfo) Name() string       { return m.name }
-func (m *MockFileInfo) Size() int64       { return m.size }
+func (m *MockFileInfo) Size() int64        { return m.size }
 func (m *MockFileInfo) Mode() os.FileMode  { return 0 }
 func (m *MockFileInfo) ModTime() time.Time { return time.Now() }
 func (m *MockFileInfo) IsDir() bool        { return m.isDir }
 func (m *MockFileInfo) Sys() interface{}   { return nil }
-

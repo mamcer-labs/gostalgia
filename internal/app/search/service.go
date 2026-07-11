@@ -2,7 +2,7 @@ package search
 
 import (
 	"context"
-	
+
 	"github.com/mamcer/gostalgia/internal/app/directory"
 	"github.com/mamcer/gostalgia/internal/app/dto"
 	"github.com/mamcer/gostalgia/internal/app/file"

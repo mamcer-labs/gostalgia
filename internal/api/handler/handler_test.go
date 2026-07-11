@@ -31,7 +31,7 @@ func TestHandlers(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	db := setupTestDB(t)
 	uow := repository.NewGormUnitOfWork(db)
-	
+
 	tagSvc := tag.NewTagService(uow, nil)
 	fileSvc := file.NewFileService(uow, nil)
 	dirSvc := directory.NewDirectoryService(uow, tagSvc)

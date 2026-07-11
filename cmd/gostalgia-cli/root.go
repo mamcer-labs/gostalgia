@@ -7,10 +7,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"github.com/mamcer/gostalgia/internal/config"
 	"github.com/mamcer/gostalgia/internal/infra/database"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"log/slog"
 )
 

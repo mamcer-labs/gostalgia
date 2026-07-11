@@ -15,9 +15,9 @@ import (
 
 	"github.com/bogem/id3v2"
 	"github.com/rwcarlsen/goexif/exif"
-	"sync"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
+	"sync"
 )
 
 var (
@@ -80,7 +80,7 @@ func (e *Enricher) Run(ctx context.Context, batchSize int, workerCount int) (int
 
 func (e *Enricher) enrichFile(file *domain.NFile) {
 	fullPath := file.Path
-	
+
 	metadata := make(map[string]interface{})
 	ext := strings.ToLower(filepath.Ext(file.Name))
 
@@ -123,7 +123,7 @@ func (e *Enricher) enrichFile(file *domain.NFile) {
 	}
 
 	metadata["enriched_at"] = time.Now().Format(time.RFC3339)
-	
+
 	jsonData, _ := json.Marshal(metadata)
 	file.Metadata = datatypes.JSON(jsonData)
 	file.CapturedAt = capturedAt

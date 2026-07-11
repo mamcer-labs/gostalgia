@@ -21,7 +21,7 @@ func TestNewRouter(t *testing.T) {
 	db, _ := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	db.AutoMigrate(&domain.NTag{}, &domain.NFile{}, &domain.NDirectory{}, &domain.NScan{}, &domain.NFileNode{})
 	uow := repository.NewGormUnitOfWork(db)
-	
+
 	tagSvc := tag.NewTagService(uow, nil)
 	fileSvc := file.NewFileService(uow, nil)
 	dirSvc := directory.NewDirectoryService(uow, tagSvc)

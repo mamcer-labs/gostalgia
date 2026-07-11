@@ -31,7 +31,7 @@ func TestRealFileSystem(t *testing.T) {
 		err = fs.CopyFile(src, dst)
 		assert.NoError(t, err)
 		assert.True(t, fs.Exists(dst))
-		
+
 		content, _ := os.ReadFile(dst)
 		assert.Equal(t, "hello", string(content))
 	})

@@ -111,7 +111,7 @@ func TestNDirectoryRepository(t *testing.T) {
 	t.Run("GetFiles and GetDirectories", func(t *testing.T) {
 		root := &domain.NDirectory{Name: "root", FullPath: "root"}
 		repo.Add(ctx, root)
-		
+
 		child := &domain.NDirectory{Name: "child", FullPath: "root/child", ParentDirectoryID: root.ID}
 		repo.Add(ctx, child)
 
@@ -178,7 +178,7 @@ func TestNScanRepository(t *testing.T) {
 		scan := &domain.NScan{FileCount: 10, Status: domain.NScanStatusCompleted}
 		err := repo.Add(ctx, scan)
 		assert.NoError(t, err)
-		
+
 		fetched, err := repo.GetByID(ctx, scan.ID)
 		assert.NoError(t, err)
 		assert.Equal(t, int64(10), fetched.FileCount)
@@ -193,9 +193,9 @@ func TestNDirectoryRepositoryExtra(t *testing.T) {
 	t.Run("FileNodeExists and GetByName", func(t *testing.T) {
 		dir := &domain.NDirectory{Name: "Parent", FullPath: "Parent"}
 		repo.Add(ctx, dir)
-		
+
 		db.Create(&domain.NFileNode{NDirectoryID: dir.ID, Name: "node1"})
-		
+
 		exists, _ := repo.FileNodeExists(ctx, dir.ID, "node1")
 		assert.True(t, exists)
 
@@ -204,7 +204,7 @@ func TestNDirectoryRepositoryExtra(t *testing.T) {
 
 		child := &domain.NDirectory{Name: "Child", ParentDirectoryID: dir.ID}
 		repo.Add(ctx, child)
-		
+
 		fetched, _ := repo.GetByName(ctx, dir.ID, "Child")
 		assert.NotNil(t, fetched)
 		assert.Equal(t, child.ID, fetched.ID)

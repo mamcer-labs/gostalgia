@@ -22,7 +22,7 @@ var thumbCmd = &cobra.Command{
 		db := database.NewMySQLDB(cfg)
 		uow := repository.NewGormUnitOfWork(db)
 		fs := filesystem.NewRealFileSystem()
-		
+
 		thumbService := thumb.NewThumbService(uow, fs)
 
 		slog.Info("Starting thumbnail generation", "size", size, "workers", numWorkers)

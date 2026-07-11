@@ -53,8 +53,6 @@ type NTagRepository interface {
 	GetPopular(ctx context.Context, limit int) ([]string, error)
 }
 
-
-
 // UnitOfWork defines the interface for managing transactions and multiple repositories
 type UnitOfWork interface {
 	Files() NFileRepository

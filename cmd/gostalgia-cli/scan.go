@@ -29,7 +29,7 @@ var scanCmd = &cobra.Command{
 		db := database.NewMySQLDB(cfg)
 		uow := repository.NewGormUnitOfWork(db)
 		fs := filesystem.NewRealFileSystem()
-		
+
 		scanService := scan.NewScanService(uow, fs)
 
 		tagList := []string{}
@@ -54,9 +54,9 @@ var scanCmd = &cobra.Command{
 		}
 
 		duration := time.Since(start)
-		slog.Info("Scan finished", 
-			"duration", duration, 
-			"directories", len(result.Directories), 
+		slog.Info("Scan finished",
+			"duration", duration,
+			"directories", len(result.Directories),
 			"files", len(result.Files))
 
 		return nil

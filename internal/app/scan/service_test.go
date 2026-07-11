@@ -25,7 +25,7 @@ type MockFileInfo struct {
 }
 
 func (m *MockFileInfo) Name() string       { return m.name }
-func (m *MockFileInfo) Size() int64       { return m.size }
+func (m *MockFileInfo) Size() int64        { return m.size }
 func (m *MockFileInfo) Mode() os.FileMode  { return 0 }
 func (m *MockFileInfo) ModTime() time.Time { return m.modTime }
 func (m *MockFileInfo) IsDir() bool        { return m.isDir }
@@ -303,7 +303,7 @@ func TestPersist(t *testing.T) {
 
 	err := service.Persist(ctx, res, nScan, opts)
 	assert.NoError(t, err)
-	
+
 	// Verify scan was saved
 	scan, _ := uow.Scans().GetByID(ctx, 1)
 	assert.NotNil(t, scan)
@@ -360,8 +360,8 @@ func TestRunScan_Integration(t *testing.T) {
 	fs.Stats[filePath] = &MockFileInfo{name: "f1.jpg", size: 10}
 
 	opts := ScanOptions{
-		Source: srcName,
-		ScanPath: scanPath,
+		Source:        srcName,
+		ScanPath:      scanPath,
 		NostalgiaPath: "/nostalgia",
 	}
 
@@ -369,10 +369,3 @@ func TestRunScan_Integration(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, result)
 }
-
-
-
-
-
-
-

@@ -63,7 +63,7 @@ func (s *ThumbService) GenerateThumbnails(ctx context.Context, opts ThumbOptions
 
 	var wg sync.WaitGroup
 	filesChan := make(chan *domain.NFile, pageSize)
-	
+
 	// Stats
 	var successCount, skippedCount, errorCount int32
 	var statsMutex sync.Mutex
@@ -80,7 +80,7 @@ func (s *ThumbService) GenerateThumbnails(ctx context.Context, opts ThumbOptions
 				default:
 					sourceFile := filepath.Join(opts.NostalgiaPath, f.Path)
 					targetFile := filepath.Join(opts.TargetPath, f.Path)
-					
+
 					// Check if exists
 					if s.fs.Exists(targetFile) {
 						statsMutex.Lock()
@@ -143,9 +143,9 @@ func (s *ThumbService) GenerateThumbnails(ctx context.Context, opts ThumbOptions
 	close(filesChan)
 	wg.Wait()
 
-	slog.Info("Thumbnail generation complete", 
-		"success", successCount, 
-		"skipped", skippedCount, 
+	slog.Info("Thumbnail generation complete",
+		"success", successCount,
+		"skipped", skippedCount,
 		"failed", errorCount)
 
 	return nil

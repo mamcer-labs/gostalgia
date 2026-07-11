@@ -8,11 +8,11 @@ import (
 )
 
 type GormUnitOfWork struct {
-	db          *gorm.DB
-	fileRepo    domain.NFileRepository
-	dirRepo     domain.NDirectoryRepository
-	scanRepo    domain.NScanRepository
-	tagRepo     domain.NTagRepository
+	db       *gorm.DB
+	fileRepo domain.NFileRepository
+	dirRepo  domain.NDirectoryRepository
+	scanRepo domain.NScanRepository
+	tagRepo  domain.NTagRepository
 }
 
 func NewGormUnitOfWork(db *gorm.DB) *GormUnitOfWork {
@@ -45,7 +45,7 @@ func (u *GormUnitOfWork) Complete(ctx context.Context) error {
 	// In GORM, if we are already in a transaction, this might be handled differently.
 	// But for a simple implementation, if we are not manually starting transactions,
 	// Complete might just be a no-op or a commit if we implemented manual TX.
-	
+
 	// If we want to support transactions properly in UoW:
 	// We should probably have a Begin method that returns a new UoW with a TX db.
 	return nil

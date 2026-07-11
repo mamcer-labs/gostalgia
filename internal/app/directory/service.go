@@ -94,7 +94,7 @@ func (s *DirectoryService) GetFiles(ctx context.Context, id int64) ([]*dto.NFile
 		for j, t := range f.Tags {
 			tags[j] = t.Name
 		}
-		
+
 		d := &dto.NFileDto{
 			ID:           f.ID,
 			Name:         f.Name,
@@ -161,7 +161,7 @@ func (s *DirectoryService) AddTagToDirectory(ctx context.Context, directoryID in
 
 	// Logic refactored to avoid saving the whole object tree with GORM
 	// We should use more targeted updates if possible, but let's at least fix the nil pointers.
-	
+
 	hasTag := false
 	for _, t := range dir.Tags {
 		if t.Name == tagName {

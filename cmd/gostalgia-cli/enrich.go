@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"log/slog"
 	"github.com/mamcer/gostalgia/internal/app/metadata"
 	"github.com/mamcer/gostalgia/internal/infra/database"
 	"github.com/spf13/cobra"
+	"log/slog"
 )
 
 var (
-	batchSize int
-	totalLimit int
+	batchSize   int
+	totalLimit  int
 	workerCount int
 )
 
@@ -21,8 +21,8 @@ var enrichCmd = &cobra.Command{
 		db := database.NewMySQLDB(cfg)
 		enricher := metadata.NewEnricher(db)
 
-		slog.Info("Starting metadata enrichment", 
-			"batchSize", batchSize, 
+		slog.Info("Starting metadata enrichment",
+			"batchSize", batchSize,
 			"totalLimit", totalLimit,
 			"workers", workerCount)
 
