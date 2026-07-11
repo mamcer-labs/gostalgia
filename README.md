@@ -46,6 +46,13 @@ Use parallel workers to process your archive efficiently:
 ./gostalgia-cli enrich --workers 8 --batch 500
 ```
 
+### local api
+
+```bash
+docker build -f Dockerfile.api -t gostalgia-api:local .
+docker run --rm -p 8080:8080 --env-file .env gostalgia-api:local
+```
+
 ## Architecture
 
 Gostalgia follows **Clean Architecture** principles, maintaining a strict separation between business logic (`internal/domain`), application use cases (`internal/app`), and infrastructure (`internal/infra`).
@@ -53,4 +60,4 @@ Gostalgia follows **Clean Architecture** principles, maintaining a strict separa
 ## Contact
 
 - **GitHub:** [github.com/mamcer](https://github.com/mamcer)
-- **Email:** mamcer@protonmail.com
+- **Email:** mamcer@proton.com
