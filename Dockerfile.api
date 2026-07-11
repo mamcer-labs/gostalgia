@@ -13,7 +13,7 @@ RUN go mod download
 COPY . .
 
 # Build the API
-RUN go build -o /nostalgia-api ./cmd/nostalgia-api
+RUN go build -o /gostalgia-api ./cmd/gostalgia-api
 
 # Final stage
 FROM alpine:3.19 AS final
@@ -23,11 +23,11 @@ WORKDIR /app
 RUN apk add --no-cache ca-certificates
 
 # Copy binary from build stage
-COPY --from=build /nostalgia-api .
+COPY --from=build /gostalgia-api .
 
 EXPOSE 8080
 
 # Default environment variables
 ENV PORT=8080
 
-ENTRYPOINT ["/app/nostalgia-api"]
+ENTRYPOINT ["/app/gostalgia-api"]
