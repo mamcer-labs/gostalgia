@@ -9,8 +9,8 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/mario/gostalgia/internal/config"
-	"github.com/mario/gostalgia/internal/infra/database"
+	"github.com/mamcer/gostalgia/internal/config"
+	"github.com/mamcer/gostalgia/internal/infra/database"
 	"log/slog"
 )
 

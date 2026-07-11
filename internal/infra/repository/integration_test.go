@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/mario/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/domain"
 	"github.com/testcontainers/testcontainers-go/modules/mysql"
 	gormmysql "gorm.io/driver/mysql"
 	"gorm.io/gorm"

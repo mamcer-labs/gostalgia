@@ -4,15 +4,15 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mario/gostalgia/internal/api/handler"
-	"github.com/mario/gostalgia/internal/app/directory"
-	"github.com/mario/gostalgia/internal/app/file"
-	"github.com/mario/gostalgia/internal/app/scan"
-	"github.com/mario/gostalgia/internal/app/search"
-	"github.com/mario/gostalgia/internal/app/tag"
+	"github.com/mamcer/gostalgia/internal/api/handler"
+	"github.com/mamcer/gostalgia/internal/app/directory"
+	"github.com/mamcer/gostalgia/internal/app/file"
+	"github.com/mamcer/gostalgia/internal/app/scan"
+	"github.com/mamcer/gostalgia/internal/app/search"
+	"github.com/mamcer/gostalgia/internal/app/tag"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	_ "github.com/mario/gostalgia/docs"
+	_ "github.com/mamcer/gostalgia/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )

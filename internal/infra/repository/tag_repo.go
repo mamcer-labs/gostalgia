@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/mario/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/domain"
 	"gorm.io/gorm"
 )
 

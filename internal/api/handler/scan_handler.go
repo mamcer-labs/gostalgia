@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mario/gostalgia/internal/app/scan"
+	"github.com/mamcer/gostalgia/internal/app/scan"
 )
 
 type ScanHandler struct {

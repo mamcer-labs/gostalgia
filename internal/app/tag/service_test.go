@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/glebarez/sqlite"
-	"github.com/mario/gostalgia/internal/domain"
-	"github.com/mario/gostalgia/internal/infra/repository"
+	"github.com/mamcer/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/infra/repository"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )

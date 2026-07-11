@@ -9,7 +9,7 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/mario/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/domain"
 )
 
 type ThumbService struct {

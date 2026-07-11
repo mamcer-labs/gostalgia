@@ -15,8 +15,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mario/gostalgia/internal/domain"
-	"github.com/mario/gostalgia/internal/infra/metrics"
+	"github.com/mamcer/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/infra/metrics"
 )
 
 type ScanService struct {

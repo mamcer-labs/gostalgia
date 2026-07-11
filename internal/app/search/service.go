@@ -3,11 +3,11 @@ package search
 import (
 	"context"
 	
-	"github.com/mario/gostalgia/internal/app/directory"
-	"github.com/mario/gostalgia/internal/app/dto"
-	"github.com/mario/gostalgia/internal/app/file"
-	"github.com/mario/gostalgia/internal/app/tag"
-	"github.com/mario/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/app/directory"
+	"github.com/mamcer/gostalgia/internal/app/dto"
+	"github.com/mamcer/gostalgia/internal/app/file"
+	"github.com/mamcer/gostalgia/internal/app/tag"
+	"github.com/mamcer/gostalgia/internal/domain"
 )
 
 type SearchService struct {

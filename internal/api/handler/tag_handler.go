@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mario/gostalgia/internal/app/directory"
-	"github.com/mario/gostalgia/internal/app/file"
-	"github.com/mario/gostalgia/internal/app/tag"
+	"github.com/mamcer/gostalgia/internal/app/directory"
+	"github.com/mamcer/gostalgia/internal/app/file"
+	"github.com/mamcer/gostalgia/internal/app/tag"
 )
 
 type TagHandler struct {

@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mario/gostalgia/internal/app/scan"
-	"github.com/mario/gostalgia/internal/infra/database"
-	"github.com/mario/gostalgia/internal/infra/filesystem"
-	"github.com/mario/gostalgia/internal/infra/repository"
+	"github.com/mamcer/gostalgia/internal/app/scan"
+	"github.com/mamcer/gostalgia/internal/infra/database"
+	"github.com/mamcer/gostalgia/internal/infra/filesystem"
+	"github.com/mamcer/gostalgia/internal/infra/repository"
 	"github.com/spf13/cobra"
 )
 

@@ -6,7 +6,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/mario/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/domain"
 	"github.com/patrickmn/go-cache"
 )
 

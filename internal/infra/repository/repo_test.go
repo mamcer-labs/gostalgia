@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/glebarez/sqlite"
-	"github.com/mario/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/domain"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )

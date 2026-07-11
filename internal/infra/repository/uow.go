@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/mario/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/domain"
 	"gorm.io/gorm"
 )
 

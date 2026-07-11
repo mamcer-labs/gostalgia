@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mario/gostalgia/internal/app/directory"
-	"github.com/mario/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/app/directory"
+	"github.com/mamcer/gostalgia/internal/domain"
 )
 
 type DirectoryHandler struct {

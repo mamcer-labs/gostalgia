@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/mario/gostalgia/internal/app/dto"
-	"github.com/mario/gostalgia/internal/app/util"
-	"github.com/mario/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/app/dto"
+	"github.com/mamcer/gostalgia/internal/app/util"
+	"github.com/mamcer/gostalgia/internal/domain"
 	"github.com/patrickmn/go-cache"
 )
 

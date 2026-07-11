@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mario/gostalgia/internal/app/search"
+	"github.com/mamcer/gostalgia/internal/app/search"
 )
 
 type SearchHandler struct {

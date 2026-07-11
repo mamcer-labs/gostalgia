@@ -7,11 +7,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/glebarez/sqlite"
-	"github.com/mario/gostalgia/internal/app/directory"
-	"github.com/mario/gostalgia/internal/app/file"
-	"github.com/mario/gostalgia/internal/app/tag"
-	"github.com/mario/gostalgia/internal/domain"
-	"github.com/mario/gostalgia/internal/infra/repository"
+	"github.com/mamcer/gostalgia/internal/app/directory"
+	"github.com/mamcer/gostalgia/internal/app/file"
+	"github.com/mamcer/gostalgia/internal/app/tag"
+	"github.com/mamcer/gostalgia/internal/domain"
+	"github.com/mamcer/gostalgia/internal/infra/repository"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )
