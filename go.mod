@@ -1,4 +1,4 @@
-module github.com/mario/nostalgia
+module github.com/mamcer/gostalgia
 
 go 1.25.6
 
