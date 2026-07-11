@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"log/slog"
-	"gostalgia/internal/app/metadata"
-	"gostalgia/internal/infra/database"
+	"github.com/mamcer/gostalgia/internal/app/metadata"
+	"github.com/mamcer/gostalgia/internal/infra/database"
 	"github.com/spf13/cobra"
 )
 
