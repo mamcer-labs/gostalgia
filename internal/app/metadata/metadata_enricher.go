@@ -4,7 +4,6 @@ import (
 	"archive/zip"
 	"context"
 	"encoding/json"
-	"io"
 	"log"
 	"os"
 	"path/filepath"
