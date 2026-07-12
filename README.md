@@ -50,7 +50,7 @@ Use parallel workers to process your archive efficiently:
 
 ```bash
 docker build -f Dockerfile.api -t gostalgia-api:local .
-docker run --rm -p 8080:8080 --env-file .env gostalgia-api:local
+docker run --rm -d --name gostalgia-api -p 5001:8080 --env-file .env gostalgia-api:local
 ```
 
 ## Architecture
