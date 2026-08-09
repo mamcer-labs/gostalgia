@@ -20,6 +20,7 @@ import (
 	"github.com/mamcer/gostalgia/internal/infra/database"
 	"github.com/mamcer/gostalgia/internal/infra/filesystem"
 	"github.com/mamcer/gostalgia/internal/infra/repository"
+	"github.com/mamcer/gostalgia/internal/infra/tracing"
 	"github.com/patrickmn/go-cache"
 )
 
@@ -63,6 +64,19 @@ func (c *container) init() {
 func main() {
 	c := &container{}
 	c.init()
+
+	shutdownTracing, err := tracing.Init(context.Background(), c.cfg.OTEL_EXPORTER_OTLP_ENDPOINT)
+	if err != nil {
+		slog.Error("Failed to initialize tracing, continuing without it", "error", err)
+	} else {
+		defer func() {
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			defer cancel()
+			if err := shutdownTracing(ctx); err != nil {
+				slog.Error("Failed to shut down tracing", "error", err)
+			}
+		}()
+	}
 
 	routerConfig := api.RouterConfig{
 		FileService:      c.fileService,

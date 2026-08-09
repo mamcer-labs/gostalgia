@@ -16,6 +16,7 @@ type Config struct {
 	NOSTALGIA_HOME_PATH         string `mapstructure:"NOSTALGIA_HOME_PATH"`
 	NOSTALGIA_THUMB_TARGET_PATH string `mapstructure:"NOSTALGIA_THUMB_TARGET_PATH"`
 	NOSTALGIA_CONNECTION_STRING string `mapstructure:"NOSTALGIA_CONNECTION_STRING"`
+	OTEL_EXPORTER_OTLP_ENDPOINT string `mapstructure:"OTEL_EXPORTER_OTLP_ENDPOINT"`
 }
 
 func LoadConfig() *Config {
@@ -28,6 +29,7 @@ func LoadConfig() *Config {
 	viper.SetDefault("NOSTALGIA_HOME_PATH", "")
 	viper.SetDefault("NOSTALGIA_THUMB_TARGET_PATH", "")
 	viper.SetDefault("NOSTALGIA_CONNECTION_STRING", "")
+	viper.SetDefault("OTEL_EXPORTER_OTLP_ENDPOINT", "tempo.fury-monitoring.svc.cluster.local:4317")
 
 	viper.SetConfigFile(".env")
 	viper.AutomaticEnv()

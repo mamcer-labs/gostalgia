@@ -10,7 +10,9 @@ import (
 	"github.com/mamcer/gostalgia/internal/app/scan"
 	"github.com/mamcer/gostalgia/internal/app/search"
 	"github.com/mamcer/gostalgia/internal/app/tag"
+	"github.com/mamcer/gostalgia/internal/infra/metrics"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 
 	_ "github.com/mamcer/gostalgia/docs"
 	swaggerFiles "github.com/swaggo/files"
@@ -28,6 +30,9 @@ type RouterConfig struct {
 
 func NewRouter(cfg RouterConfig) *gin.Engine {
 	r := gin.Default()
+
+	r.Use(otelgin.Middleware("gostalgia-api"))
+	r.Use(metrics.GinMiddleware())
 
 	// CORS
 	r.Use(func(c *gin.Context) {
