@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sync"
 	"testing"
 	"time"
 
@@ -41,8 +42,11 @@ func (m *MockDirEntry) IsDir() bool                { return m.info.isDir }
 func (m *MockDirEntry) Type() os.FileMode          { return 0 }
 func (m *MockDirEntry) Info() (os.FileInfo, error) { return m.info, nil }
 
-// MockFileSystem implements domain.FileSystem
+// MockFileSystem implements domain.FileSystem. CopyFiles runs it from
+// multiple worker goroutines concurrently, so the shared maps need a lock —
+// caught by `go test -race` in CI.
 type MockFileSystem struct {
+	mu    sync.Mutex
 	Files map[string][]byte
 	Dirs  map[string]bool
 	Stats map[string]*MockFileInfo
@@ -57,6 +61,8 @@ func NewMockFileSystem() *MockFileSystem {
 }
 
 func (m *MockFileSystem) Exists(path string) bool {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	_, ok := m.Files[path]
 	if ok {
 		return true
@@ -65,16 +71,22 @@ func (m *MockFileSystem) Exists(path string) bool {
 }
 
 func (m *MockFileSystem) IsDir(path string) bool {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	return m.Dirs[path]
 }
 
 func (m *MockFileSystem) CreateDirectory(path string) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	m.Dirs[path] = true
 	m.Stats[path] = &MockFileInfo{name: filepath.Base(path), isDir: true, modTime: time.Now()}
 	return nil
 }
 
 func (m *MockFileSystem) CopyFile(src, dst string) error {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	if data, ok := m.Files[src]; ok {
 		m.Files[dst] = data
 		m.Stats[dst] = &MockFileInfo{name: filepath.Base(dst), size: int64(len(data)), modTime: time.Now()}
@@ -84,6 +96,8 @@ func (m *MockFileSystem) CopyFile(src, dst string) error {
 }
 
 func (m *MockFileSystem) ReadDir(path string) ([]os.DirEntry, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	var entries []os.DirEntry
 	// This is a bit complex to implement correctly for all subpaths
 	// For simplicity, we'll just check if the path is a prefix
@@ -96,6 +110,8 @@ func (m *MockFileSystem) ReadDir(path string) ([]os.DirEntry, error) {
 }
 
 func (m *MockFileSystem) Stat(path string) (os.FileInfo, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	if info, ok := m.Stats[path]; ok {
 		return info, nil
 	}
@@ -103,6 +119,8 @@ func (m *MockFileSystem) Stat(path string) (os.FileInfo, error) {
 }
 
 func (m *MockFileSystem) Open(path string) (io.ReadCloser, error) {
+	m.mu.Lock()
+	defer m.mu.Unlock()
 	if data, ok := m.Files[path]; ok {
 		return io.NopCloser(bytes.NewReader(data)), nil
 	}
