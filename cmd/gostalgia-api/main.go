@@ -19,6 +19,7 @@ import (
 	"github.com/mamcer/gostalgia/internal/config"
 	"github.com/mamcer/gostalgia/internal/infra/database"
 	"github.com/mamcer/gostalgia/internal/infra/filesystem"
+	"github.com/mamcer/gostalgia/internal/infra/logging"
 	"github.com/mamcer/gostalgia/internal/infra/repository"
 	"github.com/mamcer/gostalgia/internal/infra/tracing"
 	"github.com/patrickmn/go-cache"
@@ -37,7 +38,7 @@ type container struct {
 
 func (c *container) init() {
 	// Initialize structured logger
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	logger := slog.New(logging.NewTraceHandler(slog.NewJSONHandler(os.Stdout, nil)))
 	slog.SetDefault(logger)
 
 	c.cfg = config.LoadConfig()

@@ -1,6 +1,8 @@
 package api
 
 import (
+	"log/slog"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -34,6 +36,20 @@ func NewRouter(cfg RouterConfig) *gin.Engine {
 	r.Use(otelgin.Middleware("gostalgia-api"))
 	r.Use(metrics.GinMiddleware())
 
+	// Logs server errors with trace_id/span_id (added by logging.TraceHandler)
+	// so a failed request can be traced from Tempo to its exact log lines in Loki.
+	r.Use(func(c *gin.Context) {
+		c.Next()
+		if c.Writer.Status() >= http.StatusInternalServerError {
+			slog.ErrorContext(c.Request.Context(), "request failed",
+				"method", c.Request.Method,
+				"route", c.FullPath(),
+				"status", c.Writer.Status(),
+				"errors", c.Errors.String(),
+			)
+		}
+	})
+
 	// CORS
 	r.Use(func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
@@ -65,6 +81,7 @@ func NewRouter(cfg RouterConfig) *gin.Engine {
 	v1 := r.Group("/v1")
 	{
 		v1.GET("/health", healthHandler.Health)
+		v1.GET("/debug/fail", healthHandler.Fail)
 		v1.GET("/metrics", gin.WrapH(promhttp.Handler()))
 		v1.GET("/search", searchHandler.UnifiedSearch)
 
