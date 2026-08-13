@@ -25,10 +25,14 @@ var (
 		Help: "Total HTTP requests processed, labeled by method, route and status",
 	}, []string{"method", "route", "status"})
 
+	// Buckets include 0.2s explicitly because that's the SLO threshold
+	// (see docs/SLO.md) — histogram_quantile/bucket-ratio math is only
+	// accurate at a boundary that actually has a bucket, prometheus.DefBuckets
+	// jumps 0.1 -> 0.25 and would force an interpolated (wrong) answer.
 	httpRequestDuration = promauto.NewHistogramVec(prometheus.HistogramOpts{
 		Name:    "gostalgia_http_request_duration_seconds",
 		Help:    "HTTP request duration in seconds, labeled by method and route",
-		Buckets: prometheus.DefBuckets,
+		Buckets: []float64{0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.5, 1, 2.5, 5, 10},
 	}, []string{"method", "route"})
 )
 
