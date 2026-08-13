@@ -16,10 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # cache: false — el backend de actions/cache falla auth en este runner
+      # self-hosted, y GOMODCACHE/GOCACHE ya persisten solos en el disco de
+      # rathma entre corridas, así que el cache remoto no aporta nada.
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
           go-version-file: 'go.mod'
+          cache: false
 
       - name: Vet
         run: go vet ./...
@@ -48,6 +52,7 @@ jobs:
         uses: actions/setup-go@v6
         with:
           go-version-file: 'go.mod'
+          cache: false
 
       - name: Test
         env:
@@ -83,6 +88,11 @@ jobs:
           tags: |
             ${{ env.IMAGE_API }}:${{ github.sha }}
             ${{ env.IMAGE_API }}:latest
+          # cache local en disco: el builder de Buildx es efímero en cada
+          # corrida, así que sin esto el cache de capas arranca frío siempre
+          # aunque el runner sea el mismo disco persistente.
+          cache-from: type=local,src=/home/mario/actions-runner/_work/_buildx-cache
+          cache-to: type=local,dest=/home/mario/actions-runner/_work/_buildx-cache,mode=max
 
   # deploy-dev queda comentado a propósito: recién tiene sentido cuando
   # exista un Deployment "gostalgia-api" en el namespace fury-dev (fase 8).
