@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: gostalgia
+  description: Media indexing engine — Poor Man's Fury
+  annotations:
+    github.com/project-slug: mamcer-labs/gostalgia
+    backstage.io/kubernetes-id: gostalgia-api
+    backstage.io/kubernetes-namespace: fury-dev
+  tags:
+    - go
+    - api
+spec:
+  type: service
+  lifecycle: production
+  owner: mario
+  system: poor-mans-fury
