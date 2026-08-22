@@ -94,18 +94,10 @@ jobs:
           cache-from: type=local,src=/home/mario/actions-runner/_work/_buildx-cache
           cache-to: type=local,dest=/home/mario/actions-runner/_work/_buildx-cache,mode=max
 
-  # deploy-dev queda comentado a propósito: recién tiene sentido cuando
-  # exista un Deployment "gostalgia-api" en el namespace fury-dev (fase 8).
-  # Cuando lo tengas, descomentá y ajustá el nombre.
-  #
-  # deploy-dev:
-  #   runs-on: [self-hosted, nuc]
-  #   needs: build-and-push
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-  #   steps:
-  #     - name: Deploy a fury-dev
-  #       run: |
-  #         kubectl set image deployment/gostalgia-api \
-  #           app=${{ env.IMAGE_API }}:${{ github.sha }} \
-  #           -n fury-dev
-  #         kubectl rollout status deployment/gostalgia-api -n fury-dev --timeout=120s
+  deploy-dev:
+    runs-on: [self-hosted, nuc]
+    needs: build-and-push
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy a fury-dev
+        run: pmf deploy gostalgia-api ${{ github.sha }} dev
